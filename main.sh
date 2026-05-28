@@ -13,7 +13,7 @@ echo "Anakart: PRO Z790-P WIFI DDR4 (MS-7E06)" >> report.log
 echo "UUID: DAB99063-0A8E-4A19-A6FC-047C164D13A4" >> report.log
 echo "MAC Adresi: 04-7C-16-4D-13-A4" >> report.log
 
-read -s -p "Parola girin: " girilen_sife
+read -s -p "Parola girin: " girilen_sifre
 echo ""
 
 PAROLA="${girilen_sifre}MYO+202"
