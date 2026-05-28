@@ -3,7 +3,7 @@
 # Öğrenci Numarası: 2420171021
 # Sertifika Bağlantıları: Docker Temelleri: https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=bx1hL8oPEw
 #                         Siber Güvenlikte Linux İşletim Sistemleri: https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=Yx1h8DWmem
-#                         Linux Bash Script Eğitimi: 
+#                         Linux Bash Script Eğitimi: https://credsverse.com/credentials/f2ab5bb4-2689-46bf-a50f-1c23b192a0e1
 
 date '+%Y-%m-%dT%H:%M:%S' > report.log
 
