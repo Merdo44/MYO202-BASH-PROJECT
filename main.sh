@@ -7,22 +7,22 @@
 
 date '+%Y-%m-%dT%H:%M:%S' > report.log
 
-Islemci=$(powershell.exe -Command "(Get-CimInstance Win32_Processor).Name" | tr -d '\r')
+Islemci=$(wmic cpu get name | sed -n '2p' | tr -d '\r' | xargs)
 echo "Islemci: $Islemci" >> report.log
 
-Ram_Kapasitesi=$(powershell.exe -Command "[math]::round((Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB)" | tr -d '\r')
+Ram_Kapasitesi=$(wmic computersystem get totalphysicalmemory | sed -n '2p' | tr -d '\r' | xargs)
 echo "Ram: $Ram_Kapasitesi" >> report.log
 
-Anakart=$(powershell.exe -Command "(Get-CimInstance Win32_BaseBoard).Product" | tr -d '\r')
+Anakart=$(wmic baseboard get product | sed -n '2p' | tr -d '\r' | xargs)
 echo "Anakart: $Anakart" >> report.log
 
-Anakart_UUID=$(powershell.exe -Command "(Get-CimInstance Win32_ComputerSystemProduct).UUID" | tr -d '\r')
+Anakart_UUID=$(wmic csproduct get uuid | sed -n '2p' | tr -d '\r' | xargs)
 echo "Anakart UUID: $Anakart_UUID" >> report.log
 
-Disk_Bilgisi=$(powershell.exe -Command "Get-CimInstance Win32_DiskDrive | ForEach-Object { \$_.Model + ' Kapasite: ' + [math]::round(\$_.Size / 1GB) + ' GB' }" | head -n 1 | tr -d '\r')
-echo "Disk Modeli ve Boyutu: $Disk_Bilgisi" >> report.log
+Disk_Bilgisi=$(wmic diskdrive get model, serialnumber, size | sed -n '2p' | tr -d '\r' | xargs)
+echo "Disk Bilgileri (Model - Seri No - Boyut): $Disk_Bilgisi" >> report.log
 
-Mac_Adresi=$(powershell.exe -Command "(Get-CimInstance Win32_NetworkAdapterConfiguration | Where-Object { \$_.IPEnabled -eq \$true }).MACAddress" | head -n 1 | tr -d '\r')
+Mac_Adresi=$(getmac | head -n 4 | tail -n 1 | awk '{print $1}' | tr -d '\r')
 echo "MAC Adresi: $Mac_Adresi" >> report.log
 
 
