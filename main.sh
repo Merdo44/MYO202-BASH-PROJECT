@@ -7,13 +7,26 @@
 
 date '+%Y-%m-%dT%H:%M:%S' > report.log
 
-echo "Islemci: 13th Gen Intel(R) Core(TM) i7-13700K" >> report.log
-echo "Ram: 32 GB" >> report.log
-echo "Anakart: PRO Z790-P WIFI DDR4 (MS-7E06)" >> report.log
-echo "UUID: DAB99063-0A8E-4A19-A6FC-047C164D13A4" >> report.log
-echo "MAC Adresi: 04-7C-16-4D-13-A4" >> report.log
+Islemci=$(powershell.exe -Command "(Get-CimInstance Win32_Processor).Name" | tr -d '\r')
+echo "Islemci: $Islemci" >> report.log
 
-read -s -p "Parola girin: " girilen_sifre
+Ram_Kapasitesi=$(powershell.exe -Command "[math]::round((Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB)" | tr -d '\r')
+echo "Ram: $Ram_Kapasitesi" >> report.log
+
+Anakart=$(powershell.exe -Command "(Get-CimInstance Win32_BaseBoard).Product" | tr -d '\r')
+echo "Anakart: $Anakart" >> report.log
+
+Anakart_UUID=$(powershell.exe -Command "(Get-CimInstance Win32_ComputerSystemProduct).UUID" | tr -d '\r')
+echo "Anakart UUID: $Anakart_UUID" >> report.log
+
+Disk_Bilgisi=$(powershell.exe -Command "Get-CimInstance Win32_DiskDrive | ForEach-Object { \$_.Model + ' Kapasite: ' + [math]::round(\$_.Size / 1GB) + ' GB' }" | head -n 1 | tr -d '\r')
+echo "Disk Modeli ve Boyutu: $Disk_Bilgisi" >> report.log
+
+Mac_Adresi=$(powershell.exe -Command "(Get-CimInstance Win32_NetworkAdapterConfiguration | Where-Object { \$_.IPEnabled -eq \$true }).MACAddress" | head -n 1 | tr -d '\r')
+echo "MAC Adresi: $Mac_Adresi" >> report.log
+
+
+read -s -p "Parola giriniz: " girilen_sifre
 echo ""
 
 PAROLA="${girilen_sifre}MYO+202"
