@@ -26,7 +26,8 @@ Mac_Adresi=$(getmac | head -n 4 | tail -n 1 | awk '{print $1}' | tr -d '\r')
 echo "MAC Adresi: $Mac_Adresi" >> report.log
 
 
-PAROLA="MYO+202"
+read -r -s -p "Parola giriniz: " PAROLA
+echo ""
 
-gpg --batch --yes --cipher-algo AES256 --passphrase "$PAROLA" -c report.log
+echo "$PAROLA" | gpg --batch --yes --cipher-algo AES256 --passphrase-fd 0 -c report.log
 rm report.log
